@@ -1,7 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using Silvernet.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+var ConnectionString = builder.Configuration.GetConnectionString("dbConnection");
+var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
 
+builder.Services.AddDbContext<Context>(data => data.UseSqlServer(ConnectionString));
+
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -13,6 +20,7 @@ if (app.Environment.IsDevelopment()) {
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
