@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Silvernet.Models;
 
 namespace Silvernet.Data {
 	public class Context : DbContext {
@@ -7,6 +8,6 @@ namespace Silvernet.Data {
 		
 		}
 
-
+		public DbSet<User> Users { get; set; }
 	}
 }
