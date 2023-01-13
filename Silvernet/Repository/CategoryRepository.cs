@@ -1,4 +1,5 @@
-﻿using Silvernet.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Silvernet.Data;
 using Silvernet.Models;
 using Silvernet.Repository.IRepository;
 
@@ -23,9 +24,9 @@ namespace Silvernet.Repository {
 		}
 
 		public string DeleteCategory(int id) {
-
+			if (id == null || id == 0) throw new Exception("The category id be empty or null");
 			var dbResponse = GetOneCategory(id);
-			if (!ExistCategory(dbResponse.Name)) throw new Exception("The category does not exist");
+			if (dbResponse == null) throw new Exception("The category does not exist");
 			
 			_dbcontext.Categories.Remove(dbResponse);
 			_dbcontext.SaveChanges();
@@ -47,16 +48,15 @@ namespace Silvernet.Repository {
 		}
 
 		public Category GetOneCategory(int id) {
+			if (id == null || id == 0) throw new Exception("The category id passed by params cannot be empty or null");
 			return _dbcontext.Categories.FirstOrDefault(data => data.Id == id);
 		}
 
 		public string UpdateCategory(Category category) {
+			if (category.Id == null || category.Id == 0) throw new Exception("The category id cannot be empty or null");
+			if (ExistCategory(category.Name)) throw new Exception("Category with the same name already exists");
 
-			if (category == null) throw new Exception("The category cannot be empty or null");
-			var dbResponse = GetOneCategory(category.Id);
-			if (!ExistCategory(dbResponse.Name)) throw new Exception("The category does not exist");
-
-			_dbcontext.Categories.Add(category);
+			_dbcontext.Categories.Update(category);
 			_dbcontext.SaveChanges();
 
 			return "Category updated succesfully";
