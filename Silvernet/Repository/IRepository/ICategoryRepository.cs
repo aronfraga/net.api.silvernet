@@ -1,7 +1,7 @@
 ﻿using Silvernet.Models;
 
 namespace Silvernet.Repository.IRepository {
-	public interface ICateogoryRepository {
+	public interface ICategoryRepository {
 
 		ICollection<Category> GetAllCategories();
 

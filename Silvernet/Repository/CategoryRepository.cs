@@ -3,7 +3,7 @@ using Silvernet.Models;
 using Silvernet.Repository.IRepository;
 
 namespace Silvernet.Repository {
-	public class CategoryRepository : ICateogoryRepository {
+	public class CategoryRepository : ICategoryRepository {
 
 		private readonly Context _dbcontext;
 
@@ -14,7 +14,7 @@ namespace Silvernet.Repository {
 		public string CreateCategory(Category category) {
 
 			if (category == null) throw new Exception("The category cannot be empty or null");
-			if (ExistCategory(category.Name)) throw new Exception("The Category is already in the database");
+			if (ExistCategory(category.Name)) throw new Exception("The category is already in the database");
 			
 			_dbcontext.Categories.Add(category);
 			_dbcontext.SaveChanges();
@@ -34,7 +34,8 @@ namespace Silvernet.Repository {
 		}
 
 		public bool ExistCategory(string name) {
-			return _dbcontext.Categories.Any(data => data.Name == name);
+			bool value = _dbcontext.Categories.Any(data => data.Name.ToLower().Trim() == name.ToLower().Trim());
+			return value;
 		}
 
 		public bool ExistCategory(int id) {

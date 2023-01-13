@@ -3,19 +3,19 @@ using Microsoft.AspNetCore.Mvc;
 using Silvernet.Repository.IRepository;
 
 namespace Silvernet.Controllers {
-
+	
 	[Route("api/[controller]")]
 	[ApiController]
-	public class CategoriesController : ControllerBase {
+	public class ProductsController : ControllerBase {
 
-		private readonly ICategoryRepository _repository;
+		private readonly IProductRepository _repository;
 
-		public CategoriesController(ICategoryRepository repository) {
+		public ProductsController(IProductRepository repository) {
 			_repository = repository;
 		}
 		/*
 		[HttpGet]
-		public IActionResult GetAllCategories() {
+		public IActionResult GetAllProducts() {
 			try {
 
 			} catch (Exception ex) {
@@ -24,7 +24,7 @@ namespace Silvernet.Controllers {
 		}
 
 		[HttpGet]
-		public IActionResult GetOneCategory() {
+		public IActionResult GetOneProduct() {
 			try {
 
 			} catch (Exception ex) {
@@ -33,7 +33,7 @@ namespace Silvernet.Controllers {
 		}
 
 		[HttpPost]
-		public IActionResult CreateCategory() {
+		public IActionResult CreateProduct() {
 			try {
 
 			} catch (Exception ex) {
@@ -42,7 +42,7 @@ namespace Silvernet.Controllers {
 		}
 
 		[HttpPut]
-		public IActionResult UpdateCategory() {
+		public IActionResult UpdateProduct() {
 			try {
 
 			} catch (Exception ex) {
@@ -51,7 +51,7 @@ namespace Silvernet.Controllers {
 		}
 
 		[HttpDelete]
-		public IActionResult DeleteCategory() {
+		public IActionResult DeleteProduct() {
 			try {
 
 			} catch (Exception ex) {
