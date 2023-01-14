@@ -2,6 +2,7 @@
 using Silvernet.Data;
 using Silvernet.Models;
 using Silvernet.Repository.IRepository;
+using Silvernet.Utils;
 
 namespace Silvernet.Repository {
 	public class CategoryRepository : ICategoryRepository {
@@ -14,24 +15,24 @@ namespace Silvernet.Repository {
 
 		public string CreateCategory(Category category) {
 
-			if (category == null) throw new Exception("The category cannot be empty or null");
-			if (ExistCategory(category.Name)) throw new Exception("The category is already in the database");
+			if (category == null) throw new Exception(Messages.CAT_NOT_NULL);
+			if (ExistCategory(category.Name)) throw new Exception(Messages.CAT_EXIST);
 			
 			_dbcontext.Categories.Add(category);
 			_dbcontext.SaveChanges();
 
-			return "Category created succesfully";
+			return Messages.CREATED;
 		}
 
 		public string DeleteCategory(int id) {
-			if (id == null || id == 0) throw new Exception("The category id be empty or null");
+			if (id == null || id == 0) throw new Exception(Messages.CAT_ID_NOT_NULL);
 			var dbResponse = GetOneCategory(id);
-			if (dbResponse == null) throw new Exception("The category does not exist");
+			if (dbResponse == null) throw new Exception(Messages.CAT_NOT_EXIST);
 			
 			_dbcontext.Categories.Remove(dbResponse);
 			_dbcontext.SaveChanges();
 
-			return "Category deleted succesfully";
+			return Messages.DELETED;
 		}
 
 		public bool ExistCategory(string name) {
@@ -48,18 +49,18 @@ namespace Silvernet.Repository {
 		}
 
 		public Category GetOneCategory(int id) {
-			if (id == null || id == 0) throw new Exception("The category id passed by params cannot be empty or null");
+			if (id == null || id == 0) throw new Exception(Messages.CAT_BY_PARAMS);
 			return _dbcontext.Categories.FirstOrDefault(data => data.Id == id);
 		}
 
 		public string UpdateCategory(Category category) {
-			if (category.Id == null || category.Id == 0) throw new Exception("The category id cannot be empty or null");
-			if (ExistCategory(category.Name)) throw new Exception("Category with the same name already exists");
+			if (category.Id == null || category.Id == 0) throw new Exception(Messages.CAT_EXIST);
+			if (ExistCategory(category.Name)) throw new Exception(Messages.CAT_SAME_NAME);
 
 			_dbcontext.Categories.Update(category);
 			_dbcontext.SaveChanges();
 
-			return "Category updated succesfully";
+			return Messages.UPDATED;
 		}
 	}
 }

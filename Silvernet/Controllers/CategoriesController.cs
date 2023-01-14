@@ -6,6 +6,7 @@ using Silvernet.Mapper;
 using Silvernet.Models;
 using Silvernet.Models.DTO;
 using Silvernet.Repository.IRepository;
+using Silvernet.Utils;
 
 namespace Silvernet.Controllers {
 
@@ -44,7 +45,7 @@ namespace Silvernet.Controllers {
 		[HttpPost]
 		public IActionResult CreateCategory([FromBody] CategoryDTO categoryDTO) {
 			try {
-				if (!ModelState.IsValid) throw new Exception("The model is not correct");
+				if (!ModelState.IsValid) throw new Exception(Messages.MOD_INCORRECT);
 				var responseDto = _mapper.Map<Category>(categoryDTO);
 				var response = _repository.CreateCategory(responseDto);
 				return StatusCode(201, new { request_status = "successful", response = response });
@@ -56,7 +57,7 @@ namespace Silvernet.Controllers {
 		[HttpPut]
 		public IActionResult UpdateCategory([FromBody] Category category) {
 			try {
-				if (!ModelState.IsValid) throw new Exception("The model is not correct");
+				if (!ModelState.IsValid) throw new Exception(Messages.MOD_INCORRECT);
 				var response = _repository.UpdateCategory(category);
 				return StatusCode(201, new { request_status = "successful", response = response });
 			} catch (Exception ex) {

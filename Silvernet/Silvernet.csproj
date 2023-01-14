@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\ResponseModels\" />
     <Folder Include="Views\" />
   </ItemGroup>
 

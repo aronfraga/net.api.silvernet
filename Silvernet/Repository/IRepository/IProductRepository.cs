@@ -3,13 +3,13 @@
 namespace Silvernet.Repository.IRepository {
 	public interface IProductRepository {
 
-		ICollection<Product> SearchProduct(string name);
+		ICollection<Product> SearchProduct(string modelo);
 
 		ICollection<Product> GetAllProducts();
 
 		Product GetOneProduct(int id);
 
-		bool ExistProduct(string name);
+		bool ExistProduct(string modelo);
 
 		bool ExistProduct(int id);
 

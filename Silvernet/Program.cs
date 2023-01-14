@@ -11,6 +11,7 @@ var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
 
 builder.Services.AddDbContext<Context>(data => data.UseSqlServer(ConnectionString));
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

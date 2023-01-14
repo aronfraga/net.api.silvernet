@@ -7,6 +7,8 @@ namespace Silvernet.Mapper {
 
 		public Mapper() {
 			CreateMap<CategoryDTO, Category>().ReverseMap();
+			CreateMap<ProductDTO, Product>().ReverseMap();
+			CreateMap<ProductUpdateDTO, Product>().ReverseMap();
 		}
 
 	}
