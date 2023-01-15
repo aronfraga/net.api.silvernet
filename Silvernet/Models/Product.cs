@@ -1,4 +1,5 @@
 ﻿using Silvernet.Models.DTO;
+using Silvernet.Utils;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -9,11 +10,11 @@ namespace Silvernet.Models {
 		[Key]
 		public int Id { get; set; }
 
-		[Required(ErrorMessage = "The name must be obligatory")]
-		public string Marca { get; set; }
+		[Required(ErrorMessage = Messages.PRO_MOD_BRAND)]
+		public string Brand { get; set; }
 
-		[Required(ErrorMessage = "The name must be obligatory")]
-		public string Modelo { get; set; }
+		[Required(ErrorMessage = Messages.PRO_MOD_MODEL)]
+		public string Model { get; set; }
 
 		public string Description { get; set; }
 
@@ -23,10 +24,10 @@ namespace Silvernet.Models {
 
 		public Category Category { get; set; }
 
-		[Required(ErrorMessage = "The price must be obligatory")]
+		[Required]
 		public double Price { get; set; }
 
-		[Required(ErrorMessage = "The Stock must be obligatory")]
+		[Required]
 		public int Stock { get; set; }
 
 	}

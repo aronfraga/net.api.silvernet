@@ -3,19 +3,19 @@
 namespace Silvernet.Repository.IRepository {
 	public interface ICategoryRepository {
 
-		ICollection<Category> GetAllCategories();
+		Task<ICollection<Category>> GetAllCategories();
 
-		Category GetOneCategory(int id);
+		Task<Category> GetOneCategory(int id);
 
-		bool ExistCategory(string name);
+		Task<bool> ExistCategory(string name);
 
-		bool ExistCategory(int id);
+		Task<bool> ExistCategory(int id);
 
-		string CreateCategory(Category category);
+		Task<string> CreateCategory(Category category);
 
-		string UpdateCategory(Category category);
+		Task<string> UpdateCategory(Category category);
 
-		string DeleteCategory(int id);
+		Task<string> DeleteCategory(int id);
 
 	}
 }

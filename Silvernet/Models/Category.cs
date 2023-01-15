@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Silvernet.Utils;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Silvernet.Models {
@@ -7,7 +8,7 @@ namespace Silvernet.Models {
 		[Key]
 		public int Id { get; set; }
 
-		[Required(ErrorMessage = "The name must be obligatory")]
+		[Required(ErrorMessage = Messages.CAT_MOD_NAME)]
 		public string Name { get; set; }
 
 	}

@@ -13,65 +13,59 @@ namespace Silvernet.Repository {
 			_dbcontext = dbcontext;
 		}
 
-		public string CreateProduct(Product product) {
+		public async Task<string> CreateProduct(Product product) {
 
 			if (product == null) throw new Exception(Messages.PRO_NOT_NULL);
-			if (ExistProduct(product.Modelo)) throw new Exception(Messages.PRO_EXIST);
+			if (await ExistProduct(product.Model)) throw new Exception(Messages.PRO_EXIST);
 
-			_dbcontext.Products.Add(product);
-			_dbcontext.SaveChanges();
+			await _dbcontext.Products.AddAsync(product);
+			await _dbcontext.SaveChangesAsync();
 
 			return Messages.CREATED;
+
 		}
 
-		public string DeleteProduct(int id) {
+		public async Task<string> DeleteProduct(int id) {
 
 			if (id == null || id == 0) throw new Exception(Messages.PRO_ID_NOT_NULL);
-			var dbResponse = GetOneProduct(id);
+			var dbResponse = await GetOneProduct(id);
 			if (dbResponse == null) throw new Exception(Messages.PRO_NOT_EXIST);
 
 			_dbcontext.Products.Remove(dbResponse);
-			_dbcontext.SaveChanges();
+			await _dbcontext.SaveChangesAsync();
 
 			return Messages.DELETED;
+
 		}
 
-		public bool ExistProduct(string modelo) {
-			bool value = _dbcontext.Products.Any(data => data.Modelo.ToLower().Trim() == modelo.ToLower().Trim());
+		public async Task<bool> ExistProduct(string modelo) {
+			bool value = await _dbcontext.Products.AnyAsync(data => data.Model.ToLower().Trim() == modelo.ToLower().Trim());
 			return value;
 		}
 
-		public bool ExistProduct(int id) {
-			return _dbcontext.Products.Any(data => data.Id == id);
+		public async Task<bool> ExistProduct(int id) {
+			return await _dbcontext.Products.AnyAsync(data => data.Id == id);
 		}
 
-		public ICollection<Product> GetAllProducts() {
-			return _dbcontext.Products.Include(data => data.Category).ToList();
+		public async Task<ICollection<Product>> GetAllProducts() {
+			return await _dbcontext.Products.Include(data => data.Category).ToListAsync();
 		}
 
-		public Product GetOneProduct(int id) {
+		public async Task<Product> GetOneProduct(int id) {
 			if (id == null || id == 0) throw new Exception(Messages.PRO_BY_PARAMS);
-			return _dbcontext.Products.Include(data => data.Category).FirstOrDefault(data => data.Id == id);
+			return await _dbcontext.Products.Include(data => data.Category).FirstOrDefaultAsync(data => data.Id == id);
 		}
 
-		public ICollection<Product> SearchProduct(string modelo) {
+		public async Task<string> UpdateProduct(Product product) {
 			
-			IQueryable<Product> query = _dbcontext.Products;
-			
-			if (!string.IsNullOrEmpty(modelo)) 
-				query = query.Where(data => data.Modelo.Contains(modelo));
-
-			return query.ToList();
-		}
-
-		public string UpdateProduct(Product product) {
 			if (product.Id == null || product.Id == 0) throw new Exception(Messages.PRO_ID_NOT_NULL);
-			if (!ExistProduct(product.Id)) throw new Exception(Messages.PRO_NOT_EXIST);
+			if (!await ExistProduct(product.Id)) throw new Exception(Messages.PRO_NOT_EXIST);
 
 			_dbcontext.Products.Update(product);
-			_dbcontext.SaveChanges();
+			await _dbcontext.SaveChangesAsync();
 
 			return Messages.UPDATED;
+
 		}
 	}
 }

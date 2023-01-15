@@ -13,54 +13,60 @@ namespace Silvernet.Repository {
 			_dbcontext = dbcontext;
 		}
 
-		public string CreateCategory(Category category) {
+		public async Task<string> CreateCategory(Category category) {
 
 			if (category == null) throw new Exception(Messages.CAT_NOT_NULL);
-			if (ExistCategory(category.Name)) throw new Exception(Messages.CAT_EXIST);
+			if (await ExistCategory(category.Name)) throw new Exception(Messages.CAT_EXIST);
 			
 			_dbcontext.Categories.Add(category);
-			_dbcontext.SaveChanges();
+			await _dbcontext.SaveChangesAsync();
 
 			return Messages.CREATED;
+
 		}
 
-		public string DeleteCategory(int id) {
+		public async Task<string> DeleteCategory(int id) {
+
 			if (id == null || id == 0) throw new Exception(Messages.CAT_ID_NOT_NULL);
-			var dbResponse = GetOneCategory(id);
+			var dbResponse = await GetOneCategory(id);
 			if (dbResponse == null) throw new Exception(Messages.CAT_NOT_EXIST);
 			
 			_dbcontext.Categories.Remove(dbResponse);
-			_dbcontext.SaveChanges();
+			await _dbcontext.SaveChangesAsync();
 
 			return Messages.DELETED;
+
 		}
 
-		public bool ExistCategory(string name) {
-			bool value = _dbcontext.Categories.Any(data => data.Name.ToLower().Trim() == name.ToLower().Trim());
+		public async Task<bool> ExistCategory(string name) {
+			bool value = await _dbcontext.Categories.AnyAsync(data => data.Name.ToLower().Trim() == name.ToLower().Trim());
 			return value;
 		}
 
-		public bool ExistCategory(int id) {
-			return _dbcontext.Categories.Any(data => data.Id == id);
+		public async Task<bool> ExistCategory(int id) {
+			return await _dbcontext.Categories.AnyAsync(data => data.Id == id);
 		}
 
-		public ICollection<Category> GetAllCategories() {
-			return _dbcontext.Categories.ToList();
+		public async Task<ICollection<Category>> GetAllCategories() {
+			return await _dbcontext.Categories.ToListAsync();
 		}
 
-		public Category GetOneCategory(int id) {
+		public async Task<Category> GetOneCategory(int id) {
 			if (id == null || id == 0) throw new Exception(Messages.CAT_BY_PARAMS);
-			return _dbcontext.Categories.FirstOrDefault(data => data.Id == id);
+			return await _dbcontext.Categories.FirstOrDefaultAsync(data => data.Id == id);
 		}
 
-		public string UpdateCategory(Category category) {
-			if (category.Id == null || category.Id == 0) throw new Exception(Messages.CAT_EXIST);
-			if (ExistCategory(category.Name)) throw new Exception(Messages.CAT_SAME_NAME);
+		public async Task<string> UpdateCategory(Category category) {
+
+			if (category.Id == null || category.Id == 0) throw new Exception(Messages.CAT_ID_NOT_NULL);
+			if (!await ExistCategory(category.Id)) throw new Exception(Messages.CAT_NOT_EXIST);
+			if (await ExistCategory(category.Name)) throw new Exception(Messages.CAT_SAME_NAME);
 
 			_dbcontext.Categories.Update(category);
-			_dbcontext.SaveChanges();
+			await _dbcontext.SaveChangesAsync();
 
 			return Messages.UPDATED;
+
 		}
 	}
 }

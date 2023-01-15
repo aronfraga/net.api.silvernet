@@ -3,21 +3,19 @@
 namespace Silvernet.Repository.IRepository {
 	public interface IProductRepository {
 
-		ICollection<Product> SearchProduct(string modelo);
+		Task<ICollection<Product>> GetAllProducts();
 
-		ICollection<Product> GetAllProducts();
+		Task<Product> GetOneProduct(int id);
 
-		Product GetOneProduct(int id);
+		Task<bool> ExistProduct(string modelo);
 
-		bool ExistProduct(string modelo);
+		Task<bool> ExistProduct(int id);
 
-		bool ExistProduct(int id);
+		Task<string> CreateProduct(Product product);
 
-		string CreateProduct(Product product);
+		Task<string> UpdateProduct(Product product);
 
-		string UpdateProduct(Product product);
-
-		string DeleteProduct(int id);
+		Task<string> DeleteProduct(int id);
 
 	}
 }

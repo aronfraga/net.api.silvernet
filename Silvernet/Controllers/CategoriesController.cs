@@ -23,9 +23,9 @@ namespace Silvernet.Controllers {
 		}
 		
 		[HttpGet]
-		public IActionResult GetAllCategories() {
+		public async Task<IActionResult> GetAllCategories() {
 			try {
-				var response = _repository.GetAllCategories();
+				var response = await _repository.GetAllCategories();
 				return StatusCode(302, new { request_status = "successful", response = response });
 			} catch (Exception ex) {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
@@ -33,9 +33,9 @@ namespace Silvernet.Controllers {
 		}
 
 		[HttpGet("{id}")]
-		public IActionResult GetOneCategory(int id) {
+		public async Task<IActionResult> GetOneCategory(int id) {
 			try {
-				var response = _repository.GetOneCategory(id);
+				var response = await _repository.GetOneCategory(id);
 				return StatusCode(302, new { request_status = "successful", response = response });
 			} catch (Exception ex) {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
@@ -43,11 +43,11 @@ namespace Silvernet.Controllers {
 		}
 		
 		[HttpPost]
-		public IActionResult CreateCategory([FromBody] CategoryDTO categoryDTO) {
+		public async Task<IActionResult> CreateCategory([FromBody] CategoryDTO categoryDTO) {
 			try {
 				if (!ModelState.IsValid) throw new Exception(Messages.MOD_INCORRECT);
 				var responseDto = _mapper.Map<Category>(categoryDTO);
-				var response = _repository.CreateCategory(responseDto);
+				var response = await _repository.CreateCategory(responseDto);
 				return StatusCode(201, new { request_status = "successful", response = response });
 			} catch (Exception ex) {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
@@ -55,10 +55,10 @@ namespace Silvernet.Controllers {
 		}
 		
 		[HttpPut]
-		public IActionResult UpdateCategory([FromBody] Category category) {
+		public async Task<IActionResult> UpdateCategory([FromBody] Category category) {
 			try {
 				if (!ModelState.IsValid) throw new Exception(Messages.MOD_INCORRECT);
-				var response = _repository.UpdateCategory(category);
+				var response = await _repository.UpdateCategory(category);
 				return StatusCode(201, new { request_status = "successful", response = response });
 			} catch (Exception ex) {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
@@ -66,9 +66,9 @@ namespace Silvernet.Controllers {
 		}
 
 		[HttpDelete("{id}")]
-		public IActionResult DeleteCategory(int id) {
+		public async Task<IActionResult> DeleteCategory(int id) {
 			try {
-				var response = _repository.DeleteCategory(id);
+				var response = await _repository.DeleteCategory(id);
 				return StatusCode(200, new { request_status = "successful", response = response });
 			} catch (Exception ex) {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
