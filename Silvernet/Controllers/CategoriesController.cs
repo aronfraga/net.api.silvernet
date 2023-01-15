@@ -23,29 +23,29 @@ namespace Silvernet.Controllers {
 			_mapper = mapper;
 		}
 
-
+		[Authorize]
 		[HttpGet]
 		public async Task<IActionResult> GetAllCategories() {
 			try {
 				var response = await _repository.GetAllCategories();
-				return StatusCode(302, new { request_status = "successful", response = response });
+				return StatusCode(201, new { request_status = "successful", response = response });
 			} catch (Exception ex) {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
 			}
 		}
 
-
+		[Authorize]
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetOneCategory(int id) {
 			try {
 				var response = await _repository.GetOneCategory(id);
-				return StatusCode(302, new { request_status = "successful", response = response });
+				return StatusCode(201, new { request_status = "successful", response = response });
 			} catch (Exception ex) {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
 			}
 		}
 
-
+		[Authorize]
 		[HttpPost]
 		public async Task<IActionResult> CreateCategory([FromBody] CategoryDTO categoryDTO) {
 			try {
@@ -58,7 +58,7 @@ namespace Silvernet.Controllers {
 			}
 		}
 
-
+		[Authorize]
 		[HttpPut]
 		public async Task<IActionResult> UpdateCategory([FromBody] Category category) {
 			try {
@@ -70,7 +70,7 @@ namespace Silvernet.Controllers {
 			}
 		}
 
-
+		[Authorize]
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteCategory(int id) {
 			try {

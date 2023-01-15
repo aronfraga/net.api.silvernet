@@ -1,8 +1,9 @@
 ﻿using Silvernet.Models;
-using Silvernet.Models.DTO;
+using Silvernet.Models.DTO.UserDTO;
 
-namespace Silvernet.Repository.IRepository {
-	public interface IUserRepository {
+namespace Silvernet.Repository.IRepository
+{
+    public interface IUserRepository {
 
 		Task<ICollection<User>> GetAllUsers();
 

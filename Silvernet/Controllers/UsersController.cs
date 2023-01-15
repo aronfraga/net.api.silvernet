@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Silvernet.Models;
-using Silvernet.Models.DTO;
+using Silvernet.Models.DTO.UserDTO;
 using Silvernet.Repository.IRepository;
 using Silvernet.Utils;
 using System.IdentityModel.Tokens.Jwt;
@@ -18,9 +18,10 @@ using System.Security.Claims;
 using XAct.Messages;
 using XAct.Users;
 
-namespace Silvernet.Controllers {
-	
-	[Route("api/[controller]")]
+namespace Silvernet.Controllers
+{
+
+    [Route("api/[controller]")]
 	[ApiController]
 	public class UsersController : ControllerBase {
 
@@ -36,7 +37,7 @@ namespace Silvernet.Controllers {
 		public async Task<IActionResult> RegisterUser([FromBody] UserRegisterDTO userRegisterDTO) {
 			try {
 				var response = await _repository.RegisterUser(userRegisterDTO);
-				return StatusCode(201, new { request_status = "successful", response = response });
+				return StatusCode(200, new { request_status = "successful", response = response });
 			} catch (Exception ex) {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
 			}

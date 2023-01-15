@@ -13,7 +13,7 @@ namespace Silvernet.Repository {
 			_dbcontext = dbcontext;
 		}
 
-		public async Task<string> CreateProduct(Product product) {
+		public async Task<Product> CreateProduct(Product product) {
 
 			if (product == null) throw new Exception(Messages.PRO_NOT_NULL);
 			if (await ExistProduct(product.Model)) throw new Exception(Messages.PRO_EXIST);
@@ -21,7 +21,7 @@ namespace Silvernet.Repository {
 			await _dbcontext.Products.AddAsync(product);
 			await _dbcontext.SaveChangesAsync();
 
-			return Messages.CREATED;
+			return product;
 
 		}
 
@@ -56,7 +56,7 @@ namespace Silvernet.Repository {
 			return await _dbcontext.Products.Include(data => data.Category).FirstOrDefaultAsync(data => data.Id == id);
 		}
 
-		public async Task<string> UpdateProduct(Product product) {
+		public async Task<Product> UpdateProduct(Product product) {
 			
 			if (product.Id == null || product.Id == 0) throw new Exception(Messages.PRO_ID_NOT_NULL);
 			if (!await ExistProduct(product.Id)) throw new Exception(Messages.PRO_NOT_EXIST);
@@ -64,7 +64,7 @@ namespace Silvernet.Repository {
 			_dbcontext.Products.Update(product);
 			await _dbcontext.SaveChangesAsync();
 
-			return Messages.UPDATED;
+			return product;
 
 		}
 	}

@@ -6,12 +6,9 @@
 		public const string DELETED           = "deleted succesfully!";
 		public const string MOD_INCORRECT     = "The object model is not correct";
 
-		//public const string CAT_NOT_NULL = "The category cannot be empty or null";
 		public const string USER_EXIST        = "The username or email is already in the database";
 		public const string USER_USRN_PASSW   = "User or Password are incorrect";
-		//public const string CAT_NOT_EXIST = "The category does not exist";
 		public const string USER_BY_PARAMS   = "The user id passed by params cannot be empty or null";
-		//public const string CAT_SAME_NAME = "Category with the same name already exists";
 
 		public const string CAT_NOT_NULL      = "The category cannot be empty or null";
 		public const string CAT_EXIST         = "The category is already in the database";

@@ -11,9 +11,9 @@ namespace Silvernet.Repository.IRepository {
 
 		Task<bool> ExistCategory(int id);
 
-		Task<string> CreateCategory(Category category);
+		Task<Category> CreateCategory(Category category);
 
-		Task<string> UpdateCategory(Category category);
+		Task<Category> UpdateCategory(Category category);
 
 		Task<string> DeleteCategory(int id);
 

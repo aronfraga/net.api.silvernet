@@ -13,7 +13,7 @@ namespace Silvernet.Repository {
 			_dbcontext = dbcontext;
 		}
 
-		public async Task<string> CreateCategory(Category category) {
+		public async Task<Category> CreateCategory(Category category) {
 
 			if (category == null) throw new Exception(Messages.CAT_NOT_NULL);
 			if (await ExistCategory(category.Name)) throw new Exception(Messages.CAT_EXIST);
@@ -21,7 +21,7 @@ namespace Silvernet.Repository {
 			_dbcontext.Categories.Add(category);
 			await _dbcontext.SaveChangesAsync();
 
-			return Messages.CREATED;
+			return category;
 
 		}
 
@@ -56,7 +56,7 @@ namespace Silvernet.Repository {
 			return await _dbcontext.Categories.FirstOrDefaultAsync(data => data.Id == id);
 		}
 
-		public async Task<string> UpdateCategory(Category category) {
+		public async Task<Category> UpdateCategory(Category category) {
 
 			if (category.Id == null || category.Id == 0) throw new Exception(Messages.CAT_ID_NOT_NULL);
 			if (!await ExistCategory(category.Id)) throw new Exception(Messages.CAT_NOT_EXIST);
@@ -65,7 +65,7 @@ namespace Silvernet.Repository {
 			_dbcontext.Categories.Update(category);
 			await _dbcontext.SaveChangesAsync();
 
-			return Messages.UPDATED;
+			return category;
 
 		}
 	}

@@ -11,9 +11,9 @@ namespace Silvernet.Repository.IRepository {
 
 		Task<bool> ExistProduct(int id);
 
-		Task<string> CreateProduct(Product product);
+		Task<Product> CreateProduct(Product product);
 
-		Task<string> UpdateProduct(Product product);
+		Task<Product> UpdateProduct(Product product);
 
 		Task<string> DeleteProduct(int id);
 

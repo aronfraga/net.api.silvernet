@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Silvernet.Data;
 using Silvernet.Models;
-using Silvernet.Models.DTO;
+using Silvernet.Models.DTO.UserDTO;
 using Silvernet.Repository.IRepository;
 using Silvernet.Utils;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,8 +12,9 @@ using System.Security.Cryptography.Xml;
 using System.Text;
 using XSystem.Security.Cryptography;
 
-namespace Silvernet.Repository {
-	public class UserRepository : IUserRepository {
+namespace Silvernet.Repository
+{
+    public class UserRepository : IUserRepository {
 
 		private readonly Context _dbcontext;
 		private string _secret;
