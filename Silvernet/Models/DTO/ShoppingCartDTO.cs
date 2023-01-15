@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using Silvernet.Utils;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Silvernet.Models.DTO {
 	public class ShoppingCartDTO {
@@ -10,6 +11,7 @@ namespace Silvernet.Models.DTO {
 		[JsonIgnore]
 		public int Id { get; set; }
 
+		[ForeignKey("ProductId")]
 		[Required(ErrorMessage = Messages.SHOC_MOD_PROID)]
 		public int ProductId { get; set; }
 
@@ -17,16 +19,14 @@ namespace Silvernet.Models.DTO {
 		public int Quantity { get; set; }
 
 		[JsonIgnore]
-		public double Price { get; set; }
+		public double TotalPrice { get; set; }
+
+		[ForeignKey("UserId")]
+		[JsonIgnore]
+		public int UserId { get; set; }
 
 		[JsonIgnore]
-		public int? UserId { get; set; }
-
-		[JsonIgnore]
-		public string? UserEmail { get; set; }
-
-		[JsonIgnore]
-		public bool? Status { get; set; }
+		public bool Status { get; set; } = false;
 
 	}
 }

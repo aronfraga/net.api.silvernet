@@ -5,6 +5,7 @@ using Silvernet.Models;
 using Silvernet.Repository.IRepository;
 using AutoMapper;
 using Silvernet.Utils;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Silvernet.Controllers {
 	
@@ -19,7 +20,7 @@ namespace Silvernet.Controllers {
 			_repository = repository;
 			_mapper = mapper;
 		}
-		
+
 		[HttpGet]
 		public async Task<IActionResult> GetAllProducts() {
 			try {
@@ -40,6 +41,7 @@ namespace Silvernet.Controllers {
 			}
 		}
 
+
 		[HttpPost]
 		public async Task<IActionResult> CreateProduct([FromBody] ProductDTO productDTO) {
 			try {
@@ -51,7 +53,8 @@ namespace Silvernet.Controllers {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
 			}
 		}
-		
+
+
 		[HttpPut]
 		public async Task<IActionResult> UpdateProduct([FromBody] ProductUpdateDTO productUpdateDTO) {
 			try {
@@ -63,6 +66,7 @@ namespace Silvernet.Controllers {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
 			}
 		}
+
 
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteProduct(int id) {

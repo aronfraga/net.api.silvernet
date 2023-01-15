@@ -1,17 +1,18 @@
 ﻿using Silvernet.Models;
+using Silvernet.Models.DTO;
 
 namespace Silvernet.Repository.IRepository {
 	public interface IUserRepository {
 
-		ICollection<User> GetAllUsers();
+		Task<ICollection<User>> GetAllUsers();
 
-		User GetOneUser(int id);
+		Task<User> GetOneUser(int id);
 
-		void ExistUser(string userName);
+		Task<bool> ExistUser(string email, string username);
 
-		Task<User> LoginAsync(User user);
+		Task<UserLoginResponseDTO> LoginUser(UserLoginDTO userLoginDTO);
 
-		Task<User> RegisterAsync(User user);
+		Task<string> RegisterUser(UserRegisterDTO userRegisterDTO);
 
 	}
 }

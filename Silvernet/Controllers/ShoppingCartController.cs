@@ -5,6 +5,8 @@ using Silvernet.Models.DTO;
 using Silvernet.Models;
 using Silvernet.Repository.IRepository;
 using Silvernet.Utils;
+using Microsoft.AspNetCore.Authorization;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Silvernet.Controllers {
 	[Route("api/[controller]")]
@@ -19,6 +21,7 @@ namespace Silvernet.Controllers {
 			_mapper = mapper;
 		}
 
+
 		[HttpGet]
 		public async Task<IActionResult> GetAllShoppingCart() {
 			try {
@@ -28,6 +31,7 @@ namespace Silvernet.Controllers {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
 			}
 		}
+
 
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetOneShoppingCart(int id) {
@@ -49,18 +53,25 @@ namespace Silvernet.Controllers {
 		//	}
 		//}
 
+
 		[HttpPost]
 		public async Task<IActionResult> CreateShoppingCart([FromBody] ShoppingCartDTO shoppingCartDTO) {
 			try {
+				string autho = Request.Headers["Authorization"];
+				var token = new JwtSecurityToken(jwtEncodedString: autho.Substring(7));
+
+				string userEmail = token.Claims.First(data => data.Type == "email").Value;
+
 				if (!ModelState.IsValid) throw new Exception(Messages.MOD_INCORRECT);
 				var responseDTO = _mapper.Map<ShoppingCart>(shoppingCartDTO);
-				var response = await _repository.CreateShoppingCart(responseDTO);
-				//var response = _mapper.Map<ShoppingCartViewDTO>(responseViewDTO);
+				var response = await _repository.CreateShoppingCart(responseDTO, userEmail);
+
 				return StatusCode(201, new { request_status = "successful", response = response });
 			} catch (Exception ex) {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
 			}
 		}
+
 
 		[HttpPut]
 		public async Task<IActionResult> UpdateShoppingCart([FromBody] ShoppingCartUpdateDTO shoppingCartUpdateDTO) {
@@ -73,6 +84,7 @@ namespace Silvernet.Controllers {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
 			}
 		}
+
 
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteShoppingCart(int id) {

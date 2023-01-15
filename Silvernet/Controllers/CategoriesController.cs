@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Silvernet.Mapper;
@@ -21,7 +22,8 @@ namespace Silvernet.Controllers {
 			_repository = repository;
 			_mapper = mapper;
 		}
-		
+
+
 		[HttpGet]
 		public async Task<IActionResult> GetAllCategories() {
 			try {
@@ -32,6 +34,7 @@ namespace Silvernet.Controllers {
 			}
 		}
 
+
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetOneCategory(int id) {
 			try {
@@ -41,7 +44,8 @@ namespace Silvernet.Controllers {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
 			}
 		}
-		
+
+
 		[HttpPost]
 		public async Task<IActionResult> CreateCategory([FromBody] CategoryDTO categoryDTO) {
 			try {
@@ -53,7 +57,8 @@ namespace Silvernet.Controllers {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
 			}
 		}
-		
+
+
 		[HttpPut]
 		public async Task<IActionResult> UpdateCategory([FromBody] Category category) {
 			try {
@@ -64,6 +69,7 @@ namespace Silvernet.Controllers {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
 			}
 		}
+
 
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteCategory(int id) {

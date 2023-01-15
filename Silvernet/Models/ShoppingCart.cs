@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using Silvernet.Utils;
+using Silvernet.Models;
 
 namespace Silvernet.Models {
 	public class ShoppingCart {
@@ -14,7 +15,7 @@ namespace Silvernet.Models {
 		[JsonIgnore]
 		[Required(ErrorMessage = Messages.SHOC_MOD_PROID)]
 		public int ProductId { get; set; }
-		
+
 		public Product Product { get; set; }
 
 		[Required(ErrorMessage = Messages.SHOC_MOD_QTY)]
@@ -22,11 +23,15 @@ namespace Silvernet.Models {
 
 		public double TotalPrice { get; set; }
 
-		public int? UserId { get; set; }
-		
-		public string? UserEmail { get; set; }
+		[ForeignKey("UserId")]
+		[JsonIgnore]
+		public int UserId { get; set; }
+
+		public User User { get; set; }
 
 		public bool Status { get; set; } = false;
 
 	}
 }
+
+

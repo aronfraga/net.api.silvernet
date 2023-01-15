@@ -71,8 +71,7 @@ namespace Silvernet.Migrations
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     TotalPrice = table.Column<double>(type: "float", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    UserEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -82,6 +81,12 @@ namespace Silvernet.Migrations
                         name: "FK_ShoppingCarts_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ShoppingCarts_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -95,6 +100,11 @@ namespace Silvernet.Migrations
                 name: "IX_ShoppingCarts_ProductId",
                 table: "ShoppingCarts",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShoppingCarts_UserId",
+                table: "ShoppingCarts",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -104,10 +114,10 @@ namespace Silvernet.Migrations
                 name: "ShoppingCarts");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Categories");

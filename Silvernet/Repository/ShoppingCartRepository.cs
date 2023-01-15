@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Validations;
 using Silvernet.Data;
 using Silvernet.Models;
 using Silvernet.Repository.IRepository;
@@ -13,7 +14,7 @@ namespace Silvernet.Repository {
 			_dbcontext = dbcontext;
 		}
 
-		public async Task<string> CreateShoppingCart(ShoppingCart shoppingCart) {
+		public async Task<string> CreateShoppingCart(ShoppingCart shoppingCart, string email) {
 
 			if (shoppingCart.ProductId == 0 || shoppingCart.Quantity == 0) throw new Exception(Messages.SHOC_NOT_NULL);
 
@@ -21,6 +22,9 @@ namespace Silvernet.Repository {
 			if (product == null) throw new Exception(Messages.PRO_NOT_EXIST);
 			if (shoppingCart.Quantity > product.Stock) throw new Exception(Messages.SHOC_NOT_STOCK);
 
+			var user = await _dbcontext.Users.FirstOrDefaultAsync(data => data.Email == email.ToLower().Trim());
+
+			shoppingCart.UserId = user.Id;
 			shoppingCart.TotalPrice = product.Price * shoppingCart.Quantity;
 			shoppingCart.Status = false;
 
@@ -49,7 +53,10 @@ namespace Silvernet.Repository {
 		}
 
 		public async Task<ICollection<ShoppingCart>> GetAllShoppingCart() {
-			return await _dbcontext.ShoppingCarts.Include(data => data.Product).Include(data => data.Product.Category).ToListAsync();
+			return await _dbcontext.ShoppingCarts.Include(data => data.Product)
+												 .Include(data => data.Product.Category)
+												 .Include(data => data.User)
+												 .ToListAsync();
 		}
 
 		public async Task<ICollection<ShoppingCart>> GetAllShoppingCart(string status) { 
@@ -59,6 +66,7 @@ namespace Silvernet.Repository {
 			
 			return await _dbcontext.ShoppingCarts.Include(data => data.Product)
 												 .Include(data => data.Product.Category)
+												 .Include(data => data.User)
 												 .Where(data => data.Status == statusBool)
 												 .ToListAsync();
 
@@ -71,6 +79,7 @@ namespace Silvernet.Repository {
 			
 			var response = await _dbcontext.ShoppingCarts.Include(data => data.Product)
 														 .Include(data => data.Product.Category)
+														 .Include(data => data.User)
 														 .FirstOrDefaultAsync(data => data.Id == id);
 
 			if (response == null) throw new Exception(Messages.SHOC_NOT_EXIST);

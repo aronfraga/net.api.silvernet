@@ -13,7 +13,7 @@ namespace Silvernet.Repository.IRepository {
 
 		Task<bool> ExistShoppingCart(int id);
 
-		Task<string> CreateShoppingCart(ShoppingCart shoppingCart);
+		Task<string> CreateShoppingCart(ShoppingCart shoppingCart, string email);
 
 		Task<string> UpdateShoppingCart(ShoppingCart shoppingCart);
 
