@@ -63,7 +63,7 @@ namespace Silvernet.Controllers
 				if (!ModelState.IsValid) throw new Exception(Messages.MOD_INCORRECT);
 				var responseDTO = _mapper.Map<Product>(productUpdateDTO);
 				var responseOK = await _repository.UpdateProduct(responseDTO);
-				var response = _mapper.Map<ProductUpdateDTO>(responseOK);
+				var response = _mapper.Map<Product>(responseOK);
 				return StatusCode(201, new { request_status = "successful", response = response });
 			} catch (Exception ex) {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });

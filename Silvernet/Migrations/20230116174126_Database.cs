@@ -5,7 +5,7 @@
 namespace Silvernet.Migrations
 {
     /// <inheritdoc />
-    public partial class AddData : Migration
+    public partial class Database : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

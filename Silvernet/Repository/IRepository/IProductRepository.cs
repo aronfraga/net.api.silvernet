@@ -1,4 +1,5 @@
 ﻿using Silvernet.Models;
+using Silvernet.Models.DTO.ProductDTO;
 
 namespace Silvernet.Repository.IRepository {
 	public interface IProductRepository {

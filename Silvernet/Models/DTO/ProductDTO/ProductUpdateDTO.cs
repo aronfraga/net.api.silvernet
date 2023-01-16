@@ -20,7 +20,8 @@ namespace Silvernet.Models.DTO.ProductDTO
         public string Description { get; set; }
 
         [ForeignKey("CategoryId")]
-        public int CategoryId { get; set; }
+		[Required(ErrorMessage = Messages.PRO_MOD_CATEG)]
+		public int CategoryId { get; set; }
 
         [Required(ErrorMessage = Messages.PRO_MOD_PRICE)]
         public double Price { get; set; }

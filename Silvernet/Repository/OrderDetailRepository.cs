@@ -22,6 +22,8 @@ namespace Silvernet.Repository {
 														      .Where(data => data.Status == false)
 												              .ToListAsync();
 
+			if (shoppingCarts.Count() == 0) throw new Exception($"{Messages.ORDER_NO_ORDER} {email}");
+
 			var user = await _dbcontext.Users.FirstOrDefaultAsync(data => data.Email == email);
 			if (user == null) throw new Exception(Messages.SOME_WRONG);
 
@@ -39,8 +41,8 @@ namespace Silvernet.Repository {
 			orderDetail.FinalPrice = detailViewDTO.FinalPrice;
 
 			_dbcontext.ShoppingCarts.UpdateRange(shoppingCarts);
-			_dbcontext.OrderDetails.AddAsync(orderDetail);
-			_dbcontext.SaveChangesAsync();
+			await _dbcontext.OrderDetails.AddAsync(orderDetail);
+			await _dbcontext.SaveChangesAsync();
 
 			return detailViewDTO;
 		}
@@ -57,7 +59,9 @@ namespace Silvernet.Repository {
 
 		public async Task<OrderDetail> GetOneOrderDetail(int id) {
 			if (id == null || id == 0) throw new Exception(Messages.ORDER_BY_PARAMS);
-			return await _dbcontext.OrderDetails.Include(data => data.User).FirstOrDefaultAsync(data => data.Id == id);
+			var response = await _dbcontext.OrderDetails.Include(data => data.User).FirstOrDefaultAsync(data => data.Id == id);
+			if (response == null) throw new Exception(Messages.ORDER_NOT_EXIST);
+			return response;
 		}
 
 	}

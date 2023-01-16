@@ -25,7 +25,12 @@ namespace Silvernet.Controllers {
 		[HttpPost]
 		public async Task<IActionResult> CreateOrderDetails() {
 			try {
-				var response = await _repository.CreateOrderDetail("aronfraga@gmail.com");
+				string autho = Request.Headers["Authorization"];
+				if (autho == null) throw new Exception(Messages.NO_TOKEN);
+				var token = new JwtSecurityToken(jwtEncodedString: autho.Substring(7));
+				string userEmail = token.Claims.First(data => data.Type == "email").Value;
+
+				var response = await _repository.CreateOrderDetail(userEmail);
 				return StatusCode(201, new { request_status = "successful", response = response });
 			} catch (Exception ex) {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });

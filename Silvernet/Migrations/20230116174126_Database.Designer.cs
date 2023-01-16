@@ -11,8 +11,8 @@ using Silvernet.Data;
 namespace Silvernet.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230116144157_AddData")]
-    partial class AddData
+    [Migration("20230116174126_Database")]
+    partial class Database
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

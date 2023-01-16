@@ -19,15 +19,16 @@ namespace Silvernet.Models {
 		public string Description { get; set; }
 
 		[ForeignKey("CategoryId")]
-		[JsonIgnore]
+		[Required(ErrorMessage = Messages.PRO_MOD_CATEG)]
 		public int CategoryId { get; set; }
 
+		[JsonIgnore]
 		public Category Category { get; set; }
 
-		[Required]
+		[Required(ErrorMessage = Messages.PRO_MOD_PRICE)]
 		public double Price { get; set; }
 
-		[Required]
+		[Required(ErrorMessage = Messages.PRO_MOD_STOCK)]
 		public int Stock { get; set; }
 
 	}

@@ -34,6 +34,8 @@
 		public const string SHOC_NOT_STOCK	  = "The quantity selected is higher than stock of product";
 
 		public const string ORDER_BY_PARAMS   = "The order id passed by params cannot be empty or null";
+		public const string ORDER_NOT_EXIST   = "The order does not exist or id is not correct";
+		public const string ORDER_NO_ORDER    = "There are not pending orders for the user";
 
 		public const string USER_MOD_USERNAME = "The username must be obligatory and must be a string";
 		public const string USER_MOD_EMAIL    = "The email must be obligatory and must be a string";
@@ -46,6 +48,7 @@
 		public const string PRO_MOD_ID        = "The id of product must be obligatory and must be an integer";
 		public const string PRO_MOD_BRAND     = "The brand of product must be obligatory and must be a string";
 		public const string PRO_MOD_MODEL     = "The model of product must be obligatory and must be a string";
+		public const string PRO_MOD_CATEG     = "The category id of product must be obligatory and must be a string";
 		public const string PRO_MOD_PRICE     = "The price must be obligatory and must be a double";
 		public const string PRO_MOD_STOCK     = "The Stock must be obligatory and must be an integer";
 

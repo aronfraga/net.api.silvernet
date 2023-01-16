@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Silvernet.Data;
 using Silvernet.Models;
+using Silvernet.Models.DTO.ProductDTO;
 using Silvernet.Repository.IRepository;
 using Silvernet.Utils;
 
@@ -53,7 +54,9 @@ namespace Silvernet.Repository {
 
 		public async Task<Product> GetOneProduct(int id) {
 			if (id == null || id == 0) throw new Exception(Messages.PRO_BY_PARAMS);
-			return await _dbcontext.Products.Include(data => data.Category).FirstOrDefaultAsync(data => data.Id == id);
+			var response =  await _dbcontext.Products.Include(data => data.Category).FirstOrDefaultAsync(data => data.Id == id);
+			if (response == null) throw new Exception(Messages.PRO_NOT_EXIST);
+			return response;
 		}
 
 		public async Task<Product> UpdateProduct(Product product) {
