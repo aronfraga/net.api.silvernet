@@ -5,10 +5,12 @@
 		public const string UPDATED           = "updated succesfully!";
 		public const string DELETED           = "deleted succesfully!";
 		public const string MOD_INCORRECT     = "The object model is not correct";
+		public const string NO_TOKEN          = "To list by name, first log in";
+		public const string SOME_WRONG        = "Something went wrong";
 
 		public const string USER_EXIST        = "The username or email is already in the database";
 		public const string USER_USRN_PASSW   = "User or Password are incorrect";
-		public const string USER_BY_PARAMS   = "The user id passed by params cannot be empty or null";
+		public const string USER_BY_PARAMS    = "The user id passed by params cannot be empty or null";
 
 		public const string CAT_NOT_NULL      = "The category cannot be empty or null";
 		public const string CAT_EXIST         = "The category is already in the database";
@@ -30,6 +32,8 @@
 		public const string SHOC_NOT_EXIST_OR = "The shopping cart does not exist or cannot be deleted";
 		public const string SHOC_BY_PARAMS    = "The shopping cart id passed by params cannot be empty or null";
 		public const string SHOC_NOT_STOCK	  = "The quantity selected is higher than stock of product";
+
+		public const string ORDER_BY_PARAMS   = "The order id passed by params cannot be empty or null";
 
 		public const string USER_MOD_USERNAME = "The username must be obligatory and must be a string";
 		public const string USER_MOD_EMAIL    = "The email must be obligatory and must be a string";

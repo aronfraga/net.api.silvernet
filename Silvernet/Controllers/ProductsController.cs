@@ -26,7 +26,7 @@ namespace Silvernet.Controllers
 		public async Task<IActionResult> GetAllProducts() {
 			try {
 				var response = await _repository.GetAllProducts();
-				return StatusCode(201, new { request_status = "successful", response = response });
+				return StatusCode(200, new { request_status = "successful", response = response });
 			} catch (Exception ex) {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
 			}
@@ -36,7 +36,7 @@ namespace Silvernet.Controllers
 		public async Task<IActionResult> GetOneProduct(int id) {
 			try {
 				var response = await _repository.GetOneProduct(id);
-				return StatusCode(201, new { request_status = "successful", response = response });
+				return StatusCode(200, new { request_status = "successful", response = response });
 			} catch (Exception ex) {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
 			}

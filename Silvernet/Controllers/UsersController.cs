@@ -37,7 +37,7 @@ namespace Silvernet.Controllers
 		public async Task<IActionResult> RegisterUser([FromBody] UserRegisterDTO userRegisterDTO) {
 			try {
 				var response = await _repository.RegisterUser(userRegisterDTO);
-				return StatusCode(200, new { request_status = "successful", response = response });
+				return StatusCode(201, new { request_status = "successful", response = response });
 			} catch (Exception ex) {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
 			}
@@ -47,7 +47,7 @@ namespace Silvernet.Controllers
 		public async Task<IActionResult> LoginUser([FromBody] UserLoginDTO userLoginDTO) {
 			try {
 				var response = await _repository.LoginUser(userLoginDTO);
-				return StatusCode(201, new { request_status = "successful", response = response });
+				return StatusCode(200, new { request_status = "successful", response = response });
 			} catch (Exception ex) {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
 			}

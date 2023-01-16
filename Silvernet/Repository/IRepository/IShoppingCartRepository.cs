@@ -1,11 +1,12 @@
 ﻿using Silvernet.Models;
+using Silvernet.Models.DTO.ShoppingCartDTO;
 
 namespace Silvernet.Repository.IRepository {
 	public interface IShoppingCartRepository {
 
 		Task<ICollection<ShoppingCart>> GetAllShoppingCart();
 
-		Task<ICollection<ShoppingCart>> GetAllShoppingCart(string status);
+		Task<ICollection<ShoppingCart>> GetAllShoppingCart(string userEmail);
 
 		Task<ShoppingCart> GetOneShoppingCart(int id);
 
@@ -15,7 +16,7 @@ namespace Silvernet.Repository.IRepository {
 
 		Task<string> CreateShoppingCart(ShoppingCart shoppingCart, string email);
 
-		Task<string> UpdateShoppingCart(ShoppingCart shoppingCart);
+		Task<string> UpdateShoppingCart(ShoppingCartUpdateDTO shoppingCartUpdateDTO);
 
 		Task<string> DeleteShoppingCart(int id);
 

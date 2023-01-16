@@ -13,7 +13,6 @@ namespace Silvernet.Mapper
 			CreateMap<ProductDTO, Product>().ReverseMap();
 			CreateMap<ProductUpdateDTO, Product>().ReverseMap();
 			CreateMap<ShoppingCartDTO, ShoppingCart>().ReverseMap();
-			CreateMap<ShoppingCartUpdateDTO, ShoppingCart>().ReverseMap();
 		}
 
 	}

@@ -2,8 +2,11 @@
 using Microsoft.OpenApi.Validations;
 using Silvernet.Data;
 using Silvernet.Models;
+using Silvernet.Models.DTO.ShoppingCartDTO;
+using Silvernet.Models.DTO.UserDTO;
 using Silvernet.Repository.IRepository;
 using Silvernet.Utils;
+using XAct.Users;
 
 namespace Silvernet.Repository {
 	public class ShoppingCartRepository : IShoppingCartRepository {
@@ -24,10 +27,13 @@ namespace Silvernet.Repository {
 
 			var user = await _dbcontext.Users.FirstOrDefaultAsync(data => data.Email == email.ToLower().Trim());
 
+			product.Stock -= shoppingCart.Quantity;
+
 			shoppingCart.UserId = user.Id;
 			shoppingCart.TotalPrice = product.Price * shoppingCart.Quantity;
 			shoppingCart.Status = false;
 
+			_dbcontext.Products.Update(product);
 			await _dbcontext.ShoppingCarts.AddAsync(shoppingCart);
 			await _dbcontext.SaveChangesAsync();
 
@@ -41,6 +47,11 @@ namespace Silvernet.Repository {
 			var dbResponse = await GetOneShoppingCart(id, false);
 			if (dbResponse == null) throw new Exception(Messages.SHOC_NOT_EXIST_OR);
 
+			var product = await _dbcontext.Products.FirstOrDefaultAsync(data => data.Id == dbResponse.ProductId);
+
+			product.Stock += dbResponse.Quantity;
+
+			_dbcontext.Products.Update(product);
 			_dbcontext.Remove(dbResponse);
 			await _dbcontext.SaveChangesAsync();
 
@@ -59,15 +70,14 @@ namespace Silvernet.Repository {
 												 .ToListAsync();
 		}
 
-		public async Task<ICollection<ShoppingCart>> GetAllShoppingCart(string status) { 
+		public async Task<ICollection<ShoppingCart>> GetAllShoppingCart(string userEmail) {
 
-			if(status.ToLower() != "finished" || status.ToLower() != "pending") throw new Exception("");
-			var statusBool = status.ToLower() == "finished" ? true : false;
-			
+			var user = await _dbcontext.Users.FirstOrDefaultAsync(data => data.Email.ToLower() == userEmail.ToLower());
+																	
 			return await _dbcontext.ShoppingCarts.Include(data => data.Product)
 												 .Include(data => data.Product.Category)
 												 .Include(data => data.User)
-												 .Where(data => data.Status == statusBool)
+												 .Where(data => data.UserId == user.Id)
 												 .ToListAsync();
 
 		}
@@ -94,6 +104,7 @@ namespace Silvernet.Repository {
 
 			var response = await _dbcontext.ShoppingCarts.Include(data => data.Product)
 														 .Include(data => data.Product.Category)
+														 //.Include(data => data.User)
 														 .FirstOrDefaultAsync(data => data.Id == id && data.Status == status);
 
 			if (response == null) throw new Exception(Messages.SHOC_NOT_EXIST);
@@ -101,19 +112,25 @@ namespace Silvernet.Repository {
 
 		}
 
-		public async Task<string> UpdateShoppingCart(ShoppingCart shoppingCart) {
+		public async Task<string> UpdateShoppingCart(ShoppingCartUpdateDTO shoppingCartUpdateDTO) {
 
-			if (shoppingCart.Id == 0) throw new Exception(Messages.SHOC_ID_NOT_NULL);
-			if (!await ExistShoppingCart(shoppingCart.Id)) throw new Exception(Messages.SHOC_NOT_EXIST);
-			if (shoppingCart.ProductId == 0 || shoppingCart.Quantity == 0) throw new Exception(Messages.SHOC_NOT_NULL);
+			if (shoppingCartUpdateDTO.ProductId == 0 || shoppingCartUpdateDTO.Quantity == 0) throw new Exception(Messages.SHOC_NOT_NULL);
+			
+			var oldShoppingCart = await GetOneShoppingCart(shoppingCartUpdateDTO.Id, false);
+			if (oldShoppingCart == null) throw new Exception(Messages.SHOC_NOT_EXIST_OR);
 
-			var product = await _dbcontext.Products.FirstOrDefaultAsync(data => data.Id == shoppingCart.ProductId);
+			var product = await _dbcontext.Products.FirstOrDefaultAsync(data => data.Id == shoppingCartUpdateDTO.ProductId);
 			if (product == null) throw new Exception(Messages.PRO_NOT_EXIST);
-			if (shoppingCart.Quantity > product.Stock) throw new Exception(Messages.SHOC_NOT_STOCK);
+			
+			if (shoppingCartUpdateDTO.Quantity > (product.Stock + oldShoppingCart.Quantity)) throw new Exception(Messages.SHOC_NOT_STOCK);
 
-			shoppingCart.TotalPrice = product.Price * shoppingCart.Quantity;
+			product.Stock = (product.Stock + oldShoppingCart.Quantity) - shoppingCartUpdateDTO.Quantity;
 
-			_dbcontext.ShoppingCarts.Update(shoppingCart);
+			oldShoppingCart.Quantity = shoppingCartUpdateDTO.Quantity;
+			oldShoppingCart.TotalPrice = product.Price * shoppingCartUpdateDTO.Quantity;
+			oldShoppingCart.Status = false;
+
+			_dbcontext.ShoppingCarts.Update(oldShoppingCart);
 			await _dbcontext.SaveChangesAsync();
 
 			return Messages.UPDATED;

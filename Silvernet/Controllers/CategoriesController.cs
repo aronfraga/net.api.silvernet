@@ -28,7 +28,7 @@ namespace Silvernet.Controllers {
 		public async Task<IActionResult> GetAllCategories() {
 			try {
 				var response = await _repository.GetAllCategories();
-				return StatusCode(201, new { request_status = "successful", response = response });
+				return StatusCode(200, new { request_status = "successful", response = response });
 			} catch (Exception ex) {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
 			}
@@ -39,7 +39,7 @@ namespace Silvernet.Controllers {
 		public async Task<IActionResult> GetOneCategory(int id) {
 			try {
 				var response = await _repository.GetOneCategory(id);
-				return StatusCode(201, new { request_status = "successful", response = response });
+				return StatusCode(200, new { request_status = "successful", response = response });
 			} catch (Exception ex) {
 				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
 			}

@@ -16,9 +16,6 @@ namespace Silvernet.Models.DTO.ShoppingCartDTO
         [Required(ErrorMessage = Messages.SHOC_MOD_PROID)]
         public int ProductId { get; set; }
 
-        [JsonIgnore]
-        public Product Product { get; set; }
-
         [Required(ErrorMessage = Messages.SHOC_MOD_QTY)]
         public int Quantity { get; set; }
 
@@ -28,9 +25,6 @@ namespace Silvernet.Models.DTO.ShoppingCartDTO
         [ForeignKey("UserId")]
         [JsonIgnore]
         public int UserId { get; set; }
-
-        [JsonIgnore]
-        public User User { get; set; }
 
         [JsonIgnore]
         public bool Status { get; set; } = false;

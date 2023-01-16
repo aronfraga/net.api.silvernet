@@ -38,6 +38,27 @@ namespace Silvernet.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("Silvernet.Models.OrderDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("FinalPrice")
+                        .HasColumnType("float");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("OrderDetails");
+                });
+
             modelBuilder.Entity("Silvernet.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -129,6 +150,17 @@ namespace Silvernet.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Silvernet.Models.OrderDetail", b =>
+                {
+                    b.HasOne("Silvernet.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Silvernet.Models.Product", b =>
