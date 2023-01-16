@@ -8,6 +8,8 @@ namespace Silvernet.Repository.IRepository {
 
 		Task<ICollection<ShoppingCart>> GetAllShoppingCart(string userEmail);
 
+		Task<ICollection<ShoppingCart>> GetAllShoppingCart(bool status);
+
 		Task<ShoppingCart> GetOneShoppingCart(int id);
 
 		Task<ShoppingCart> GetOneShoppingCart(int id, bool status);

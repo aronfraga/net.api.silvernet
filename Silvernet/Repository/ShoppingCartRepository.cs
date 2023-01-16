@@ -70,6 +70,14 @@ namespace Silvernet.Repository {
 												 .ToListAsync();
 		}
 
+		public async Task<ICollection<ShoppingCart>> GetAllShoppingCart(bool status) {
+			return await _dbcontext.ShoppingCarts.Include(data => data.Product)
+												 .Include(data => data.Product.Category)
+												 .Include(data => data.User)
+												 .Where(data => data.Status == status)
+												 .ToListAsync();
+		}
+
 		public async Task<ICollection<ShoppingCart>> GetAllShoppingCart(string userEmail) {
 
 			var user = await _dbcontext.Users.FirstOrDefaultAsync(data => data.Email.ToLower() == userEmail.ToLower());
@@ -104,7 +112,6 @@ namespace Silvernet.Repository {
 
 			var response = await _dbcontext.ShoppingCarts.Include(data => data.Product)
 														 .Include(data => data.Product.Category)
-														 //.Include(data => data.User)
 														 .FirstOrDefaultAsync(data => data.Id == id && data.Status == status);
 
 			if (response == null) throw new Exception(Messages.SHOC_NOT_EXIST);

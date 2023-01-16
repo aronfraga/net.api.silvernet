@@ -34,6 +34,30 @@ namespace Silvernet.Controllers
 		}
 
 		[Authorize]
+		[Route("Finished")]
+		[HttpGet]
+		public async Task<IActionResult> GetAllShoppingCartFinished() {
+			try {
+				var response = await _repository.GetAllShoppingCart(true);
+				return StatusCode(200, new { request_status = "successful", response = response });
+			} catch (Exception ex) {
+				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
+			}
+		}
+
+		[Authorize]
+		[Route("Pending")]
+		[HttpGet]
+		public async Task<IActionResult> GetAllShoppingCartPending() {
+			try {
+				var response = await _repository.GetAllShoppingCart(false);
+				return StatusCode(200, new { request_status = "successful", response = response });
+			} catch (Exception ex) {
+				return StatusCode(400, new { request_status = "unsuccessful", response = ex.Message });
+			}
+		}
+
+		[Authorize]
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetOneShoppingCart(int id) {
 			try {
